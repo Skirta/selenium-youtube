@@ -1,4 +1,4 @@
-package automation_exercise.no_pom;
+package automation_exercise.step2.login_tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,7 +45,7 @@ public class LoginLogoutUserTests {
     }
 
     @Test
-    public void loginOutTest() {
+    public void logoutTest() {
         driver.get("https://automationexercise.com/");
         wait.until(ExpectedConditions.urlToBe("https://automationexercise.com/"));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@src,'logo.png')]")));
