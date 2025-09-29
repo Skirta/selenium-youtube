@@ -39,6 +39,8 @@ public class PlaceOrderTests {
         wait.until(ExpectedConditions.urlToBe("https://automationexercise.com/"));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@src,'logo.png')]")));
 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Погоджуюся' or @aria-label='Consent']"))).click();
+
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/products']"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='All Products']")));
 

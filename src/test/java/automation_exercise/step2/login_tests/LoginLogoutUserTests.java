@@ -19,7 +19,7 @@ public class LoginLogoutUserTests {
     @BeforeMethod
     public void setUp() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().window().maximize();
     }
 
@@ -33,6 +33,8 @@ public class LoginLogoutUserTests {
         driver.get("https://automationexercise.com/");
         wait.until(ExpectedConditions.urlToBe("https://automationexercise.com/"));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@src,'logo.png')]")));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Погоджуюся' or @aria-label='Consent']"))).click();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/login']"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='New User Signup!']")));
@@ -49,6 +51,8 @@ public class LoginLogoutUserTests {
         driver.get("https://automationexercise.com/");
         wait.until(ExpectedConditions.urlToBe("https://automationexercise.com/"));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@src,'logo.png')]")));
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Погоджуюся' or @aria-label='Consent']"))).click();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/login']"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='New User Signup!']")));
