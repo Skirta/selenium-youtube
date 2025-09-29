@@ -1,4 +1,4 @@
-package automation.exercise.step2.pages;
+package automation.exercise.pages;
 
 public class LoginPage extends BasePage{
 }

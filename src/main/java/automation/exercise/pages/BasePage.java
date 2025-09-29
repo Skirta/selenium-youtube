@@ -1,4 +1,4 @@
-package automation.exercise.step2.pages;
+package automation.exercise.pages;
 
 import org.openqa.selenium.WebDriver;
 

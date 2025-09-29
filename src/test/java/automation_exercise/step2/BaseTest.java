@@ -1,7 +1,7 @@
 package automation_exercise.step2;
 
-import automation.exercise.step2.BrowserFactory;
-import automation.exercise.step2.pages.BasePage;
+import automation.exercise.BrowserFactory;
+import automation.exercise.pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
