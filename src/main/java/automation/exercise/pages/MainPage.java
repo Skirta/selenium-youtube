@@ -1,13 +1,27 @@
 package automation.exercise.pages;
 
+import automation.exercise.helpers.Waiter;
 import org.openqa.selenium.By;
 
 public class MainPage extends BasePage {
 
     private final By cookieAggryButtonLocator = By.xpath("//button[@aria-label='Погоджуюся' or @aria-label='Consent']");
-    private final By logoutButtonLocator = By.xpath("//a[@href='/logout']");
-    private final By productsButtonLocator = By.xpath("//a[@href='/products']");
-    private final By cartButtonLocator = By.xpath("//div[@class='modal-content']//a[@href='/view_cart']");
 
+    private final Waiter waiter = new Waiter(getDriver());
+
+    public MainPage openMainPage() {
+        getDriver().get("https://automationexercise.com/");
+        waiter.waitUntilUrlToBe("https://automationexercise.com/");
+        return this;
+    }
+    
+    public MainPage assertMainPageSuccessfullyLoaded() {
+        waiter.waitUntilVisibilityOfElementLocated(logoLocator);
+        return this;
+    }
+
+    public LoginPage clickLoginButton() {
+        waiter.waitUntilElementClicable(signupLoginLocator);
+        return new LoginPage();
+    }
 }
-

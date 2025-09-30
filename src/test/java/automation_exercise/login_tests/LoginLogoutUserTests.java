@@ -1,4 +1,4 @@
-package automation_exercise.step2.login_tests;
+package automation_exercise.login_tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

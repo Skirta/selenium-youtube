@@ -1,4 +1,4 @@
-package automation_exercise.step2.products_tests;
+package automation_exercise.products_tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;

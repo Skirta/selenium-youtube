@@ -12,6 +12,13 @@ public abstract class BasePage {
     protected final By logoutButtonLocator = By.xpath("//a[@href='/logout']");
     protected final By displayedAdBannerLocator = By.xpath("//ins[@data-anchor-status='displayed' and @data-adsbygoogle-status='done']");
     protected final By cartButtonLocator = By.xpath("//ul[contains(@class,'navbar-nav')]//a[@href='/view_cart']");
+    protected final By productsButtonLocator = By.xpath("//a[@href='/products']");
+
+//    public final By getLogoLocator(){
+//        return logoLocator;
+//    }
+
+
 
 
     private static WebDriver driver; // static - значить що драйвер створено один раз і він буде використовуватись у всіх тестах (для паралелізації не підходить)

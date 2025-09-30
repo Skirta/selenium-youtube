@@ -1,4 +1,4 @@
-package automation_exercise.step2.place_order_tests;
+package automation_exercise.place_order_tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;

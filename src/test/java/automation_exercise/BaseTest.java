@@ -1,4 +1,4 @@
-package automation_exercise.step2;
+package automation_exercise;
 
 import automation.exercise.BrowserFactory;
 import automation.exercise.pages.BasePage;

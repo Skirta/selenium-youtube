@@ -1,49 +1,44 @@
-package automation_exercise.step2.registration_tests;
+package automation_exercise.registration_tests;
 
+import automation.exercise.helpers.DataRandomizer;
+import automation.exercise.helpers.Waiter;
+import automation.exercise.pages.BasePage;
+import automation.exercise.pages.LoginPage;
+import automation.exercise.pages.MainPage;
+import automation_exercise.BaseTest;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
+import javax.xml.crypto.Data;
 import java.util.UUID;
 
-public class RegistrationUserTests {
-
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
-    }
+public class RegistrationUserTests extends BaseTest {
 
     @Test
     public void registerUserTest() {
-        driver.get("https://automationexercise.com/");
-        wait.until(ExpectedConditions.urlToBe("https://automationexercise.com/"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@src,'logo.png')]")));
+        String emailForRegistration = DataRandomizer.getRandomEmail();
+        String fullNameForRegistration = DataRandomizer.getRandomFullName();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Погоджуюся' or @aria-label='Consent']"))).click();
+        MainPage mainPage = new MainPage();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/login']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='New User Signup!']")));
+        LoginPage loginPage = mainPage
+                .openMainPage()
+                .assertMainPageSuccessfullyLoaded()
+                .clickLoginButton();
 
-        UUID uuid = UUID.randomUUID();
-        String emailPart = uuid.toString().substring(0, 8);
+        loginPage.assertLoginPageSuccessfullyLoaded().
+
+
+
+
+
+
+
+
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-qa='signup-name']"))).sendKeys("Joe");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-qa='signup-email']"))).sendKeys(emailPart + "joespencer@test.com");
