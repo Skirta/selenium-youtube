@@ -3,6 +3,7 @@ package automation.exercise.helpers;
 import automation.exercise.pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -25,19 +26,19 @@ public class Waiter extends BasePage {
         new WebDriverWait(driver, duration).until(ExpectedConditions.urlToBe(expectedUrl));
     }
 
-    public void waitUntilVisibilityOfElementLocated(By locator) {
-        new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public WebElement waitUntilVisibilityOfElementLocated(By locator) {
+        return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    public void waitUntilVisibilityOfElementLocated(By locator, Duration duration) {
-        new WebDriverWait(driver, duration).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public WebElement waitUntilVisibilityOfElementLocated(By locator, Duration duration) {
+        return new WebDriverWait(driver, duration).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    public void waitUntilElementClicable(By locator) {
-        new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.elementToBeClickable(locator));
+    public WebElement waitUntilElementClicable(By locator) {
+        return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    public void waitUntilElementClicable(By locator, Duration duration) {
-        new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(locator));
+    public WebElement waitUntilElementClicable(By locator, Duration duration) {
+        return new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(locator));
     }
 }

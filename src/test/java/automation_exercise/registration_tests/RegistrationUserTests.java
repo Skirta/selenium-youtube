@@ -2,9 +2,8 @@ package automation_exercise.registration_tests;
 
 import automation.exercise.helpers.DataRandomizer;
 import automation.exercise.helpers.Waiter;
-import automation.exercise.pages.BasePage;
-import automation.exercise.pages.LoginPage;
-import automation.exercise.pages.MainPage;
+import automation.exercise.models.UserRegistrationDetails;
+import automation.exercise.pages.*;
 import automation_exercise.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -20,8 +19,29 @@ public class RegistrationUserTests extends BaseTest {
 
     @Test
     public void registerUserTest() {
-        String emailForRegistration = DataRandomizer.getRandomEmail();
-        String fullNameForRegistration = DataRandomizer.getRandomFullName();
+
+        String[] randomBirthDate = DataRandomizer.getRandomBirthDate();
+
+        UserRegistrationDetails user = UserRegistrationDetails.builder()
+                .emailForRegistrstion(DataRandomizer.getRandomEmail())
+                .title(DataRandomizer.getRandomGender())
+                .passwordForRegistration(DataRandomizer.getRandomPassword())
+                .firstNameForRegistration(DataRandomizer.getRandomFirstName())
+                .lastNameForRegistration(DataRandomizer.getRandomLastName())
+                .dayOfBirthForRegistration(randomBirthDate[0])
+                .monthOfBirthForRegistration(randomBirthDate[1])
+                .yearOfBirthForRegistration(randomBirthDate[3])
+                .companyNameForRegistration(DataRandomizer.getRandomCompany())
+                .addressForRegistration(DataRandomizer.getRandomAddress())
+                .secondAddressForRegistration(DataRandomizer.getRandomSecondAddress())
+                .stateForRegistration(DataRandomizer.getRandomState())
+                .cityForRegistration(DataRandomizer.getRandomCity())
+                .zipcodeForRegistration(DataRandomizer.getRandomZipcode())
+                .mobileNumberForRegistration(DataRandomizer.getRandomMobileNumber())
+                .build();
+
+
+
 
         MainPage mainPage = new MainPage();
 
@@ -30,54 +50,34 @@ public class RegistrationUserTests extends BaseTest {
                 .assertMainPageSuccessfullyLoaded()
                 .clickLoginButton();
 
-        loginPage.assertLoginPageSuccessfullyLoaded().
+        CreateAccountPage createAccountPage = loginPage
+                .assertLoginPageSuccessfullyLoaded()
+                .setName(user.getFirstNameForRegistration() + " " + user.getLastNameForRegistration())
+                .setEmail(user.getEmailForRegistrstion())
+                .clickSignupButton();
 
+        AccountCreatedPage accountCreatedPage = createAccountPage
+                .assertCreateAccountPageSuccessfullyLoaded()
+                .clickMrGenderRadioButton()
+                .setPassword(user.getPasswordForRegistration())
+                .setDayOfBirth()
+                .setMonthOfBirth()
+                .setYearOfBirth()
+                .clickNewsletterCheckbox()
+                .clickSpecialOffersCheckbox()
+                .setFirstName(user.getFirstNameForRegistration())
+                .setLastName(user.getLastNameForRegistration())
+                .setCompany(user.getCompanyNameForRegistration())
+                .setAddress(user.getAddressForRegistration())
+                .setSecondAddress(user.getSecondAddressForRegistration())
+                .setCountry()
+                .setState(user.getStateForRegistration())
+                .setCity(user.getCityForRegistration())
+                .setZipcode(user.getZipcodeForRegistration())
+                .setMobileNumber(user.getMobileNumberForRegistration())
+                .clickCreateAccountButton();
 
-
-
-
-
-
-
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-qa='signup-name']"))).sendKeys("Joe");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-qa='signup-email']"))).sendKeys(emailPart + "joespencer@test.com");
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-qa='signup-button']"))).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//b[text()='Enter Account Information']")));
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uniform-id_gender1"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("test123");
-
-        WebElement daysSelectorLocator = driver.findElement(By.id("days"));
-        Select daysSelect = new Select(daysSelectorLocator);
-        daysSelect.selectByVisibleText("28");
-
-        WebElement monthSelectorLocator = driver.findElement(By.id("months"));
-        Select monthSelect = new Select(monthSelectorLocator);
-        monthSelect.selectByVisibleText("November");
-
-        WebElement yearsSelectorLocator = driver.findElement(By.id("years"));
-        Select yearsSelect = new Select(yearsSelectorLocator);
-        yearsSelect.selectByVisibleText("1990");
-
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("newsletter"))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("optin"))).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("first_name"))).sendKeys("Joe");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("last_name"))).sendKeys("Spenser");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("company"))).sendKeys("IOT Design");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("address1"))).sendKeys("Rice avenue, 2");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("address2"))).sendKeys("app 43");
-        WebElement countrySelectorLocator = driver.findElement(By.id("country"));
-        Select countrySelect = new Select(countrySelectorLocator);
-        countrySelect.selectByVisibleText("Canada");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("state"))).sendKeys("UYS");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("city"))).sendKeys("Vancouver");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("zipcode"))).sendKeys("38822");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("mobile_number"))).sendKeys("+19237923723");
-
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-qa='create-account']"))).click();
+        accountCreatedPage.
 
         wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//h2[@data-qa='account-created']/b"), "ACCOUNT CREATED!"));
 

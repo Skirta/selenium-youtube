@@ -16,6 +16,20 @@ public class LoginPage extends BasePage {
 
     private final Waiter waiter = new Waiter(getDriver());
 
+    public LoginPage setName(String name) {
+        waiter.waitUntilVisibilityOfElementLocated(signupNameInputLocator).sendKeys(name);
+        return this;
+    }
+
+    public LoginPage setEmail(String email) {
+        waiter.waitUntilVisibilityOfElementLocated(signupEmailInputLocator).sendKeys(email);
+        return this;
+    }
+    public CreateAccountPage clickSignupButton(){
+        waiter.waitUntilElementClicable(signupButtonLocator).click();
+        return new CreateAccountPage();
+    }
+
     public LoginPage assertLoginPageSuccessfullyLoaded() {
         waiter.waitUntilVisibilityOfElementLocated(loginPageTitleLocator);
         return this;
