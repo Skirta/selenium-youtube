@@ -1,9 +1,9 @@
 package automation.exercise.pages;
 
 import automation.exercise.helpers.Waiter;
+import automation.exercise.models.Gender;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 public class CreateAccountPage extends BasePage{
@@ -14,6 +14,7 @@ public class CreateAccountPage extends BasePage{
 
     // Кнопки
     private final By genderMrRadioButtonLocator = By.id("uniform-id_gender1");
+    private final By genderMrsRadioButtonLocator = By.id("uniform-id_gender2");
     private final By createAccountButtonLocator = By.xpath("//button[@data-qa='create-account']");
 
 
@@ -46,9 +47,12 @@ public class CreateAccountPage extends BasePage{
         return this;
     }
 
-    //TODO (Need to refactor this method to randomly choose between MR and MRS)
-    public CreateAccountPage clickMrGenderRadioButton(){
-        waiter.waitUntilVisibilityOfElementLocated(genderMrRadioButtonLocator);
+    public CreateAccountPage clickGenderRadioButton(Gender title){
+        if (title.equals(Gender.MR)){
+            waiter.waitUntilVisibilityOfElementLocated(genderMrRadioButtonLocator).click();
+        } else {
+            waiter.waitUntilVisibilityOfElementLocated(genderMrsRadioButtonLocator).click();
+        }
         return this;
     }
 
@@ -57,27 +61,24 @@ public class CreateAccountPage extends BasePage{
         return this;
     }
 
-    //TODO (Need to refactor this method to randomly choose between 1 and 31)
-    public CreateAccountPage setDayOfBirth(){
+    public CreateAccountPage setDayOfBirth(String day){
         WebElement daysSelectorLocator = getDriver().findElement(daysDropdownLocator);
         Select daysSelect = new Select(daysSelectorLocator);
-        daysSelect.selectByVisibleText("28");
+        daysSelect.selectByVisibleText(day);
         return this;
     }
 
-    //TODO (Need to refactor this method to randomly choose between month)
-    public CreateAccountPage setMonthOfBirth() {
+    public CreateAccountPage setMonthOfBirth(String month) {
         WebElement monthSelectorLocator = getDriver().findElement(monthsDropdownLocator);
         Select monthSelect = new Select(monthSelectorLocator);
-        monthSelect.selectByVisibleText("November");
+        monthSelect.selectByVisibleText(month);
         return this;
     }
 
-    //TODO (Need to refactor this method to randomly choose between 1900 and 2021)
-    public CreateAccountPage setYearOfBirth() {
+    public CreateAccountPage setYearOfBirth(String year) {
         WebElement yearsSelectorLocator = getDriver().findElement(yearsDropdownLocator);
         Select yearsSelect = new Select(yearsSelectorLocator);
-        yearsSelect.selectByVisibleText("1990");
+        yearsSelect.selectByVisibleText(year);
         return this;
     }
 
@@ -116,11 +117,10 @@ public class CreateAccountPage extends BasePage{
         return this;
     }
 
-    //TODO (Need to refactor this method to randomly choose one country from dropdown)
-    public CreateAccountPage setCountry() {
+    public CreateAccountPage setCountry(String country) {
         WebElement countrySelectorLocator = getDriver().findElement(countryDropdownLocator);
         Select countrySelect = new Select(countrySelectorLocator);
-        countrySelect.selectByVisibleText("Canada");
+        countrySelect.selectByVisibleText(country);
         return this;
     }
 

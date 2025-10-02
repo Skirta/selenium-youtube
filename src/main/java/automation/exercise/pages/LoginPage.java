@@ -2,7 +2,6 @@ package automation.exercise.pages;
 
 import automation.exercise.helpers.Waiter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -27,6 +26,7 @@ public class LoginPage extends BasePage {
     }
     public CreateAccountPage clickSignupButton(){
         waiter.waitUntilElementClicable(signupButtonLocator).click();
+        removeGoogleAdvertising();
         return new CreateAccountPage();
     }
 

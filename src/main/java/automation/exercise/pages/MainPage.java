@@ -14,6 +14,11 @@ public class MainPage extends BasePage {
         waiter.waitUntilUrlToBe("https://automationexercise.com/");
         return this;
     }
+
+    public MainPage clickConsentButton(){
+        waiter.waitUntilElementClicable(cookieAggryButtonLocator).click();
+        return this;
+    }
     
     public MainPage assertMainPageSuccessfullyLoaded() {
         waiter.waitUntilVisibilityOfElementLocated(logoLocator);
@@ -21,7 +26,8 @@ public class MainPage extends BasePage {
     }
 
     public LoginPage clickLoginButton() {
-        waiter.waitUntilElementClicable(signupLoginLocator);
+        waiter.waitUntilElementClicable(signupLoginLocator).click();
         return new LoginPage();
     }
+
 }

@@ -1,15 +1,12 @@
 package automation.exercise.helpers;
 
-import automation.exercise.models.Title;
+import automation.exercise.models.Gender;
 import com.github.javafaker.Faker;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class DataRandomizer {
     private static final Faker faker = new Faker();
@@ -24,9 +21,9 @@ public class DataRandomizer {
         return faker.name().fullName();
     }
 
-    public static Title getRandomGender(){
-        Title[] titles = Title.values();
-        return titles[new Random().nextInt(titles.length)];
+    public static Gender getRandomGender(){
+        Gender[] genders = Gender.values();
+        return genders[new Random().nextInt(genders.length)];
     }
 
     public static String getRandomPassword(){
@@ -53,6 +50,11 @@ public class DataRandomizer {
         return faker.address().secondaryAddress();
     }
 
+    public static String getRandomCountry(){
+        List<String> countries = List.of("India", "United States", "Canada", "Australia", "Israel", "New Zealand", "Singapore");
+        return countries.get(new Random().nextInt(countries.size()));
+        }
+
     public static String getRandomState(){
         return faker.address().state();
     }
@@ -74,12 +76,8 @@ public class DataRandomizer {
         LocalDate localDate = birthday.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH);
         String formattedData = localDate.format(formatter);
         return formattedData.split(" ");
-
     }
-
-
-
 }

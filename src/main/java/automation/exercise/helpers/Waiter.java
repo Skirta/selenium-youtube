@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class Waiter extends BasePage {
+public class Waiter {
 
     private final WebDriver driver;
     private final Duration defaultTimeout = Duration.ofSeconds(5);
@@ -40,5 +40,9 @@ public class Waiter extends BasePage {
 
     public WebElement waitUntilElementClicable(By locator, Duration duration) {
         return new WebDriverWait(driver, duration).until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public Boolean waitUntilTextToBeInElement(By locator, String expectedText) {
+        return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectedText));
     }
 }

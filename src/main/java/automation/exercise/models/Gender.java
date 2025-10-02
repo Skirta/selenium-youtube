@@ -1,6 +1,6 @@
 package automation.exercise.models;
 
-public enum Title {
+public enum Gender {
     MR,
     MRS
 }

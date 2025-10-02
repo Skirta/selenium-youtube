@@ -9,9 +9,7 @@ import lombok.Setter;
 @Builder
 
 public class UserRegistrationDetails {
-
-
-    private Title title;
+    private Gender gender;
     private String emailForRegistrstion;
     private String passwordForRegistration;
     private String firstNameForRegistration;
@@ -22,6 +20,7 @@ public class UserRegistrationDetails {
     private String companyNameForRegistration;
     private String addressForRegistration;
     private String secondAddressForRegistration;
+    private String countryForRegistration;
     private String stateForRegistration;
     private String cityForRegistration;
     private String zipcodeForRegistration;
