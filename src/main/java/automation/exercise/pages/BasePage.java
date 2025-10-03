@@ -48,4 +48,11 @@ public abstract class BasePage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("document.querySelector('ins.adsbygoogle[data-anchor-status=\"displayed\"]').remove()");
     }
+
+    public LoginPage clickLogoutButton(){
+        waiter.waitUntilElementClicable(logoutButtonLocator).click();
+        return new LoginPage();
+    }
+
+
 }

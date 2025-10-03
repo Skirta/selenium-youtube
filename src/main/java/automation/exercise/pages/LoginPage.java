@@ -1,7 +1,9 @@
 package automation.exercise.pages;
 
 import automation.exercise.helpers.Waiter;
+import lombok.extern.java.Log;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -33,5 +35,20 @@ public class LoginPage extends BasePage {
     public LoginPage assertLoginPageSuccessfullyLoaded() {
         waiter.waitUntilVisibilityOfElementLocated(loginPageTitleLocator);
         return this;
+    }
+
+    public LoginPage setLoginEmail(String loginName){
+        waiter.waitUntilVisibilityOfElementLocated(loginEmailInputLocator).sendKeys(loginName);
+        return this;
+    }
+
+    public LoginPage setLoginPassword(String loginPassword){
+        waiter.waitUntilVisibilityOfElementLocated(loginPasswordInputLocator).sendKeys(loginPassword);
+        return this;
+    }
+
+    public MainPage clickLoginButton (){
+        waiter.waitUntilElementClicable(loginButtonLocator).click();
+        return new MainPage();
     }
 }
