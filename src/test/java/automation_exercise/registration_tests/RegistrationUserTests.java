@@ -20,6 +20,7 @@ public class RegistrationUserTests extends BaseTest {
                 .openMainPage()
                 .clickConsentButton()
                 .assertMainPageSuccessfullyLoaded()
+                .getMainMenu()
                 .clickLoginButton();
 
         CreateAccountPage createAccountPage = loginPage
@@ -32,7 +33,9 @@ public class RegistrationUserTests extends BaseTest {
         accountCreatedPage
                 .assertAccountCreatedPageSuccessfullyLoaded("ACCOUNT CREATED")
                 .clickContinueButton()
+                .getMainMenu()
                 .assertUserNameIsVisible("Logged in as " + user.getFirstNameForRegistration())
+                .getMainMenu()
                 .clickDeleteAccountButton()
                 .assertAccountDeletedPageSuccessfullyLoaded("ACCOUNT DELETED!");
     }
