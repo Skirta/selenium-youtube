@@ -18,7 +18,6 @@ public class MainPage extends BasePage {
 
     public MainPage openMainPage() {
         String baseUrl = SecretsManager.get("BASE_URL");
-
         getDriver().get(baseUrl);
         waiter.waitUntilUrlToBe(baseUrl);
         return this;

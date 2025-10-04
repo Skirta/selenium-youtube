@@ -1,10 +1,7 @@
 package automation.exercise.components;
 
 import automation.exercise.helpers.Waiter;
-import automation.exercise.pages.AccountDeletedPage;
-import automation.exercise.pages.BasePage;
-import automation.exercise.pages.LoginPage;
-import automation.exercise.pages.MainPage;
+import automation.exercise.pages.*;
 import org.openqa.selenium.By;
 
 public class MainMenu {
@@ -16,7 +13,7 @@ public class MainMenu {
     protected final By loggedInAsNameLocator = By.xpath("//i[contains(@class,'fa-user')]/parent::a");
     protected final By deleteAccountButtonLocator = By.xpath("//a[@href='/delete_account']");
     protected final By logoutButtonLocator = By.xpath("//a[@href='/logout']");
-
+    protected final By productsButtonLocator = By.xpath("//a[@href='/products']");
 
     public AccountDeletedPage clickDeleteAccountButton() {
         waiter.waitUntilElementClicable(deleteAccountButtonLocator).click();
@@ -31,6 +28,11 @@ public class MainMenu {
     public LoginPage clickLoginButton() {
         waiter.waitUntilElementClicable(signupLoginLocator).click();
         return new LoginPage();
+    }
+
+    public AllProductsPage clickProductsButton() {
+        waiter.waitUntilElementClicable(productsButtonLocator).click();
+        return new AllProductsPage();
     }
 
     public MainPage assertUserNameIsVisible(String expectedName) {

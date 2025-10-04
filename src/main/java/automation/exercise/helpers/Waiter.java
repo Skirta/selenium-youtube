@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class Waiter {
 
@@ -44,5 +45,9 @@ public class Waiter {
 
     public Boolean waitUntilTextToBeInElement(By locator, String expectedText) {
         return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectedText));
+    }
+
+    public List<WebElement> waitUntilNumberOfElementsToBe(By locator, int value) {
+        return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.numberOfElementsToBe(locator, value));
     }
 }
