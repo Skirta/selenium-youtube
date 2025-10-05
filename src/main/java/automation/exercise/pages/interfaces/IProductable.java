@@ -9,7 +9,6 @@ import java.util.List;
 
 import static automation.exercise.pages.BasePage.getDriver;
 
-
 public interface IProductable {
 
     By containerLocator = By.xpath("//div[@class='product-image-wrapper']");
@@ -19,7 +18,7 @@ public interface IProductable {
     By addToCardButtonLocator = By.xpath(".//a[contains(@class,'add-to-cart')][1]");
     By viewProductButtonLocator = By.xpath(".//i[contains(@class,'fa-plus-square')][1]");
 
-    default List<Product> getAllProducts(){
+    default List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         List<WebElement> productContainers = getDriver().findElements(containerLocator);
         for (WebElement containter : productContainers) {
@@ -36,11 +35,8 @@ public interface IProductable {
                     .addToCardButton(addToCardButton)
                     .viewProductButton(viewProductButton)
                     .build();
-
             products.add(product);
-
-        }return products;
-
+        }
+        return products;
     }
-
 }
