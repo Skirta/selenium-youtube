@@ -1,12 +1,14 @@
 package automation_exercise.products_tests;
 
+import automation.exercise.models.Product;
 import automation.exercise.pages.AllProductsPage;
 import automation.exercise.pages.MainPage;
+import automation.exercise.pages.SearchedProductsPage;
 import automation_exercise.BaseTest;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 public class ProductsTests extends BaseTest {
 
@@ -26,19 +28,21 @@ public class ProductsTests extends BaseTest {
 
     @Test
     public void checkProductListAndProductDetailsTest() {
-        allProductsPage.assertAllProductsPageNumberOfProducts(34)
+        List<Product> allProducts = allProductsPage
+                .assertAllProductsPageNumberOfProducts(34)
                 .getAllProducts();
+
+        Product actualProduct = allProducts.get(0);
+        Product expectedProduct = Product.builder()
+                .name("Blue Top")
+                .price("Rs. 500")
+                .build();
+        allProductsPage.assertProductDetails(actualProduct, expectedProduct);
+
     }
-}
 
 
 
-
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//h2)[1]"),"Rs. 500"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//p)[1]"),"Blue Top"));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//img)[1]")));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//a[contains(@class,'add-to-cart')])[1]")));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//i[contains(@class,'fa-plus-square')])[1]")));
 //
 //        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//i[contains(@class,'fa-plus-square')])[1]"))).click();
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/h2"),"Blue Top"));
@@ -49,26 +53,26 @@ public class ProductsTests extends BaseTest {
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/p[4]"),"Brand: Polo"));
 //}
 //
-//@Test
-//public void searchProductTest(){
-//    allProductsPage
-//            .setSearchInput("printed")
-//            .clickSearchButton()
-//            .assertAllProductsPageNumberOfProducts(2);
-//
-//        }
-//
-//
-//    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("search_product"))).sendKeys("printed");
-//    wait.until(ExpectedConditions.elementToBeClickable(By.id("submit_search"))).click();
-//    wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='single-products']"), 2));
-//
-//    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//h2)[1]"), "Rs. 499"));
-//    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//p)[1]"), "Sleeves Printed Top - White"));
-//    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[1]//img)[1]")));
-//
-//    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[2]//h2)[1]"), "Rs. 315"));
-//    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[2]//p)[1]"), "Printed Off Shoulder Top - White"));
-//    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("((//div[@class='product-image-wrapper'])[2]//img)[1]")));
-//}
-//}
+    @Test
+    public void searchProductTest() {
+        SearchedProductsPage searchedProductsPage = allProductsPage
+                .setSearchInput("printed")
+                .clickSearchButton();
+        List<Product> allProducts = searchedProductsPage
+                .assertAllProductsPageNumberOfProducts(2)
+                .getAllProducts();
+
+        Product actualFirstProduct = allProducts.get(0);
+        Product actualSecondProduct = allProducts.get(1);
+        Product expectedfirstProduct = Product.builder()
+                .name("Sleeves Printed Top - White")
+                .price("Rs. 499")
+                .build();
+        Product expectedsecondProduct = Product.builder()
+                .name("Printed Off Shoulder Top - White")
+                .price("Rs. 315")
+                .build();
+        allProductsPage.assertProductDetails(actualFirstProduct, expectedfirstProduct);
+        allProductsPage.assertProductDetails(actualSecondProduct, expectedsecondProduct);
+    }
+}

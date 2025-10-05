@@ -39,11 +39,6 @@ public class AllProductsPage extends BasePage implements IProductable {
         return this;
     }
 
-    public AllProductsPage assertAllProductsPageNumberOfProducts(int value) {
-        waiter.waitUntilNumberOfElementsToBe(allProductsCardsLocator, value);
-        return this;
-    }
-
     public AllProductsPage setSearchInput(String searchInput){
         waiter.waitUntilVisibilityOfElementLocated(searchProductInputLocator).sendKeys(searchInput);
         return this;
@@ -53,6 +48,4 @@ public class AllProductsPage extends BasePage implements IProductable {
         waiter.waitUntilElementClicable(submitSearchButtonLocator).click();
         return new SearchedProductsPage();
     }
-
-
 }
