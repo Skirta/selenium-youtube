@@ -1,5 +1,6 @@
 package automation.exercise.models;
 
+import automation.exercise.pages.ProductDetailsPage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,5 +17,10 @@ public class ProductCard {
     private String name;
     private WebElement addToCardButton;
     private WebElement viewProductButton;
+
+    public ProductDetailsPage cliclViewProductButton(){
+        this.viewProductButton.click();
+        return new ProductDetailsPage();
+    }
 
 }

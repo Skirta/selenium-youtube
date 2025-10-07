@@ -1,14 +1,18 @@
 package automation_exercise.products_tests;
 
 import automation.exercise.models.ProductCard;
+import automation.exercise.models.ProductDetails;
 import automation.exercise.pages.AllProductsPage;
 import automation.exercise.pages.MainPage;
+import automation.exercise.pages.ProductDetailsPage;
 import automation.exercise.pages.SearchedProductsPage;
 import automation_exercise.BaseTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProductsTests extends BaseTest {
 
@@ -39,20 +43,20 @@ public class ProductsTests extends BaseTest {
                 .build();
         allProductsPage.assertProductDetails(actualProductCard, expectedProductCard);
 
+        ProductDetailsPage productDetailsPage = actualProductCard.cliclViewProductButton();
+
+        ProductDetails actualProductDetails = productDetailsPage.getProductDetails();
+        ProductDetails expectedProductDetails = ProductDetails.builder()
+                .name("Blue Top")
+                .category("Category: Women > Tops")
+                .price("Rs. 500")
+                .availability("Availability: In Stock")
+                .condition("Condition: New")
+                .brand("Brand: Polo")
+                .build();
+        assertThat(actualProductDetails).usingRecursiveComparison().isEqualTo(expectedProductDetails);
     }
 
-
-
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//i[contains(@class,'fa-plus-square')])[1]"))).click();
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/h2"),"Blue Top"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/p[1]"),"Category: Women > Tops"));
-//
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/p[2]"),"Availability: In Stock"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/p[3]"),"Condition: New"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@class='product-information']/p[4]"),"Brand: Polo"));
-//}
-//
     @Test
     public void searchProductTest() {
         SearchedProductsPage searchedProductsPage = allProductsPage
