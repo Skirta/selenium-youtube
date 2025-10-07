@@ -1,7 +1,7 @@
 package automation.exercise.pages.interfaces;
 
 import automation.exercise.helpers.Waiter;
-import automation.exercise.models.Product;
+import automation.exercise.models.ProductCard;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -35,26 +35,26 @@ public interface IProductable {
         return elements.isEmpty() ? null : elements.get(0).getText();
     }
 
-    default List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
+    default List<ProductCard> getAllProducts() {
+        List<ProductCard> productCards = new ArrayList<>();
         List<WebElement> productContainers = getDriver().findElements(containerLocator);
-        for (WebElement containter : productContainers) {
-            WebElement productImage = findOrNull(containter, productImageLocator);
-            String productPrice = getTextOrNull(containter, productPriceLocator);
-            String productName = getTextOrNull(containter, productNameLocator);
-            WebElement addToCardButton = findOrNull(containter, addToCardButtonLocator);
-            WebElement viewProductButton = findOrNull(containter, viewProductButtonLocator);
+        for (WebElement container : productContainers) {
+            WebElement productImage = findOrNull(container, productImageLocator);
+            String productPrice = getTextOrNull(container, productPriceLocator);
+            String productName = getTextOrNull(container, productNameLocator);
+            WebElement addToCardButton = findOrNull(container, addToCardButtonLocator);
+            WebElement viewProductButton = findOrNull(container, viewProductButtonLocator);
 
-            Product product = Product.builder()
+            ProductCard productCard = ProductCard.builder()
                     .image(productImage)
                     .price(productPrice)
                     .name(productName)
                     .addToCardButton(addToCardButton)
                     .viewProductButton(viewProductButton)
                     .build();
-            products.add(product);
+            productCards.add(productCard);
         }
-        return products;
+        return productCards;
     }
 
     default IProductable assertAllProductsPageNumberOfProducts(int value) {
@@ -62,12 +62,12 @@ public interface IProductable {
         return this;
     }
 
-    default IProductable assertProductDetails(Product actualProduct, Product expectProduct){
-        assertNotNull(actualProduct.getImage(), String.format("Missing product image for product with name [%s]" , expectProduct.getName()));
-        assertEquals(actualProduct.getPrice(), expectProduct.getPrice(), String.format("Wrong product price for product [%s]", expectProduct.getName()));
-        assertEquals(actualProduct.getName(), expectProduct.getName(), String.format("Wrong product name for product [%s]", expectProduct.getName()));
-        assertNotNull(actualProduct.getAddToCardButton(), String.format("Missing product add to cart button for product with name[%s]", expectProduct.getName()));
-        assertNotNull(actualProduct.getViewProductButton(), String.format("Missing product view button for product with name [%s]", expectProduct.getName()));
+    default IProductable assertProductDetails(ProductCard actualProductCard, ProductCard expectProductCard){
+        assertNotNull(actualProductCard.getImage(), String.format("Missing product image for product with name [%s]" , expectProductCard.getName()));
+        assertEquals(actualProductCard.getPrice(), expectProductCard.getPrice(), String.format("Wrong product price for product [%s]", expectProductCard.getName()));
+        assertEquals(actualProductCard.getName(), expectProductCard.getName(), String.format("Wrong product name for product [%s]", expectProductCard.getName()));
+        assertNotNull(actualProductCard.getAddToCardButton(), String.format("Missing product add to cart button for product with name[%s]", expectProductCard.getName()));
+        assertNotNull(actualProductCard.getViewProductButton(), String.format("Missing product view button for product with name [%s]", expectProductCard.getName()));
         return this;
     }
 }

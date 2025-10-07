@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 @Getter
 @Setter
 @Builder
-public class Product {
+public class ProductCard {
     private WebElement image;
     private String price;
     private String name;

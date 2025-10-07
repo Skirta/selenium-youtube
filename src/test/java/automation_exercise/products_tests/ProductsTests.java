@@ -1,6 +1,6 @@
 package automation_exercise.products_tests;
 
-import automation.exercise.models.Product;
+import automation.exercise.models.ProductCard;
 import automation.exercise.pages.AllProductsPage;
 import automation.exercise.pages.MainPage;
 import automation.exercise.pages.SearchedProductsPage;
@@ -28,16 +28,16 @@ public class ProductsTests extends BaseTest {
 
     @Test
     public void checkProductListAndProductDetailsTest() {
-        List<Product> allProducts = allProductsPage
+        List<ProductCard> allProductCards = allProductsPage
                 .assertAllProductsPageNumberOfProducts(34)
                 .getAllProducts();
 
-        Product actualProduct = allProducts.get(0);
-        Product expectedProduct = Product.builder()
+        ProductCard actualProductCard = allProductCards.get(0);
+        ProductCard expectedProductCard = ProductCard.builder()
                 .name("Blue Top")
                 .price("Rs. 500")
                 .build();
-        allProductsPage.assertProductDetails(actualProduct, expectedProduct);
+        allProductsPage.assertProductDetails(actualProductCard, expectedProductCard);
 
     }
 
@@ -58,21 +58,21 @@ public class ProductsTests extends BaseTest {
         SearchedProductsPage searchedProductsPage = allProductsPage
                 .setSearchInput("printed")
                 .clickSearchButton();
-        List<Product> allProducts = searchedProductsPage
+        List<ProductCard> allProductCards = searchedProductsPage
                 .assertAllProductsPageNumberOfProducts(2)
                 .getAllProducts();
 
-        Product actualFirstProduct = allProducts.get(0);
-        Product actualSecondProduct = allProducts.get(1);
-        Product expectedfirstProduct = Product.builder()
+        ProductCard actualFirstProductCard = allProductCards.get(0);
+        ProductCard actualSecondProductCard = allProductCards.get(1);
+        ProductCard expectedfirstProductCard = ProductCard.builder()
                 .name("Sleeves Printed Top - White")
                 .price("Rs. 499")
                 .build();
-        Product expectedsecondProduct = Product.builder()
+        ProductCard expectedsecondProductCard = ProductCard.builder()
                 .name("Printed Off Shoulder Top - White")
                 .price("Rs. 315")
                 .build();
-        allProductsPage.assertProductDetails(actualFirstProduct, expectedfirstProduct);
-        allProductsPage.assertProductDetails(actualSecondProduct, expectedsecondProduct);
+        allProductsPage.assertProductDetails(actualFirstProductCard, expectedfirstProductCard);
+        allProductsPage.assertProductDetails(actualSecondProductCard, expectedsecondProductCard);
     }
 }
