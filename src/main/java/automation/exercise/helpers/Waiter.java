@@ -34,8 +34,16 @@ public class Waiter {
         return new WebDriverWait(driver, duration).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public boolean waitUntilInVisibilityOfElementLocated(By locator) {
+        return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
     public WebElement waitUntilElementClicable(By locator) {
         return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public WebElement waitUntilElementClicable(WebElement webElement) {
+        return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
     public WebElement waitUntilElementClicable(By locator, Duration duration) {
@@ -48,5 +56,15 @@ public class Waiter {
 
     public List<WebElement> waitUntilNumberOfElementsToBe(By locator, int value) {
         return new WebDriverWait(driver, defaultTimeout).until(ExpectedConditions.numberOfElementsToBe(locator, value));
+    }
+
+    public WebElement findOrNull(WebElement container, By locator) {
+        List<WebElement> elements = container.findElements(locator);
+        return elements.isEmpty() ? null : elements.get(0);
+    }
+
+    public String getTextOrNull(WebElement container, By locator) {
+        List<WebElement> elements = container.findElements(locator);
+        return elements.isEmpty() ? null : elements.get(0).getText();
     }
 }

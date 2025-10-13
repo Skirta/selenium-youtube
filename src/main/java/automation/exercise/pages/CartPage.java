@@ -1,26 +1,70 @@
 package automation.exercise.pages;
 
+import automation.exercise.helpers.Waiter;
+import automation.exercise.models.ProductInCart;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
-public class CartPage extends BasePage{
-    // --- Перший товар у кошику (Blue Top) ---
-    private final By firstCartProductImageLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_product']//img)[1]");
-    private final By firstCartProductNameLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[1]");
-    private final By firstCartProductCategoryLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[1]");
-    private final By firstCartProductPriceLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[1]");
-    private final By firstCartProductQuantityLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[1]");
-    private final By firstCartProductTotalLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_total']//p)[1]");
-    private final By firstCartProductDeleteLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_delete']//a[@class='cart_quantity_delete'])[1]");
+import java.util.ArrayList;
+import java.util.List;
 
-    // --- Другий товар у кошику (Men Tshirt) ---
-    private final By secondCartProductImageLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_product']//img)[2]");
-    private final By secondCartProductNameLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[2]");
-    private final By secondCartProductCategoryLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[2]");
-    private final By secondCartProductPriceLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[2]");
-    private final By secondCartProductQuantityLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[2]");
-    private final By secondCartProductTotalLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_total']//p)[2]");
-    private final By secondCartProductDeleteLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_delete']//a[@class='cart_quantity_delete'])[2]");
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
-    private final By modalLoginLinkLocator = By.xpath("//div[@class='modal-content']//a[@href='/login']");
+public class CartPage extends BasePage {
 
+    private final Waiter waiter = new Waiter(getDriver());
+
+    private final By containerLocator = By.xpath("//tr[contains(@id, 'product-')]");
+    private final By productImageLocator = By.xpath(".//img");
+    private final By productNameLocator = By.xpath(".//td[@class='cart_description']//a");
+    private final By productCategoryLocator = By.xpath(".//td[@class='cart_description']//p");
+    private final By productPriceLocator = By.xpath(".//td[@class='cart_price']//p");
+    private final By productQuantityLocator = By.xpath(".//td[@class='cart_quantity']//button");
+    private final By productTotalPriceLocator = By.xpath(".//p[@class='cart_total_price']");
+    private final By productDeleteButtonLocator = By.xpath(".//a[@class='cart_quantity_delete']");
+
+    public List<ProductInCart> getAllProductsInCart() {
+        List<ProductInCart> prod = new ArrayList<>();
+        List<WebElement> productContainers = getDriver().findElements(containerLocator);
+        for (WebElement container : productContainers) {
+            WebElement productImage = waiter.findOrNull(container, productImageLocator);
+            WebElement productName = waiter.findOrNull(container, productNameLocator);
+            String productNameAsText = productName.getText();
+            String productPrice = waiter.getTextOrNull(container, productPriceLocator);
+            String productCategory = waiter.getTextOrNull(container, productCategoryLocator);
+            String productQuantity = waiter.getTextOrNull(container, productQuantityLocator);
+            String productTotalPrice = waiter.getTextOrNull(container, productTotalPriceLocator);
+            WebElement deleteButton = waiter.findOrNull(container, productDeleteButtonLocator);
+
+            ProductInCart productInCard = ProductInCart.builder()
+                    .image(productImage)
+                    .name(productName)
+                    .nameAsText(productNameAsText)
+                    .price(productPrice)
+                    .category(productCategory)
+                    .quantity(productQuantity)
+                    .totalPrice(productTotalPrice)
+                    .deleteButton(deleteButton)
+                    .build();
+
+            prod.add(productInCard);
+        }
+        return prod;
+    }
+
+    public ProductInCart getProductByName(List<ProductInCart> allProductsInCart, String productName) {
+        return allProductsInCart
+                .stream()
+                .filter(productInCart -> productInCart.getNameAsText().equals(productName)).findFirst().orElseThrow();
+    }
+
+//    public CartPage assertProductInCartDetails(CartPage actualProductCard, CartPage expectProductCard){
+//        assertNotNull(actualProductCard., String.format("Missing product image for product with name [%s]" , expectProductCard.getName()));
+//        assertEquals(actualProductCard.getPrice(), expectProductCard.getPrice(), String.format("Wrong product price for product [%s]", expectProductCard.getName()));
+//        assertEquals(actualProductCard.getName(), expectProductCard.getName(), String.format("Wrong product name for product [%s]", expectProductCard.getName()));
+//        assertNotNull(actualProductCard.getAddToCartButton(), String.format("Missing product add to cart button for product with name[%s]", expectProductCard.getName()));
+//        assertNotNull(actualProductCard.getViewProductButton(), String.format("Missing product view button for product with name [%s]", expectProductCard.getName()));
+//        return this;
+//    }
 }

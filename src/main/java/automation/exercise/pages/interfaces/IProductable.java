@@ -24,32 +24,25 @@ public interface IProductable {
     By productNameLocator = By.xpath(".//p[1]");
     By addToCardButtonLocator = By.xpath(".//a[contains(@class,'add-to-cart')][1]");
     By viewProductButtonLocator = By.xpath(".//i[contains(@class,'fa-plus-square')][1]");
-
-    default WebElement findOrNull(WebElement container, By locator){
-        List<WebElement> elements = container.findElements(locator);
-        return elements.isEmpty() ? null : elements.get(0);
-    }
-
-    default String getTextOrNull(WebElement container, By locator){
-        List<WebElement> elements = container.findElements(locator);
-        return elements.isEmpty() ? null : elements.get(0).getText();
-    }
+    By addToCartOverlayButtonLocator = By.xpath(".//div[@class='overlay-content']/a[contains(@class,'add-to-cart')]");
 
     default List<ProductCard> getAllProducts() {
         List<ProductCard> productCards = new ArrayList<>();
         List<WebElement> productContainers = getDriver().findElements(containerLocator);
         for (WebElement container : productContainers) {
-            WebElement productImage = findOrNull(container, productImageLocator);
-            String productPrice = getTextOrNull(container, productPriceLocator);
-            String productName = getTextOrNull(container, productNameLocator);
-            WebElement addToCardButton = findOrNull(container, addToCardButtonLocator);
-            WebElement viewProductButton = findOrNull(container, viewProductButtonLocator);
+            WebElement productImage = waiter().findOrNull(container, productImageLocator);
+            String productPrice = waiter().getTextOrNull(container, productPriceLocator);
+            String productName = waiter().getTextOrNull(container, productNameLocator);
+            WebElement addToCardButton = waiter().findOrNull(container, addToCardButtonLocator);
+            WebElement addToCardOverlayButton = waiter().findOrNull(container, addToCartOverlayButtonLocator);
+            WebElement viewProductButton = waiter().findOrNull(container, viewProductButtonLocator);
 
             ProductCard productCard = ProductCard.builder()
                     .image(productImage)
                     .price(productPrice)
                     .name(productName)
-                    .addToCardButton(addToCardButton)
+                    .addToCartButton(addToCardButton)
+                    .addToCartOverlayButton(addToCardOverlayButton)
                     .viewProductButton(viewProductButton)
                     .build();
             productCards.add(productCard);
@@ -66,7 +59,7 @@ public interface IProductable {
         assertNotNull(actualProductCard.getImage(), String.format("Missing product image for product with name [%s]" , expectProductCard.getName()));
         assertEquals(actualProductCard.getPrice(), expectProductCard.getPrice(), String.format("Wrong product price for product [%s]", expectProductCard.getName()));
         assertEquals(actualProductCard.getName(), expectProductCard.getName(), String.format("Wrong product name for product [%s]", expectProductCard.getName()));
-        assertNotNull(actualProductCard.getAddToCardButton(), String.format("Missing product add to cart button for product with name[%s]", expectProductCard.getName()));
+        assertNotNull(actualProductCard.getAddToCartButton(), String.format("Missing product add to cart button for product with name[%s]", expectProductCard.getName()));
         assertNotNull(actualProductCard.getViewProductButton(), String.format("Missing product view button for product with name [%s]", expectProductCard.getName()));
         return this;
     }

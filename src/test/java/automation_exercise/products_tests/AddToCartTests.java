@@ -1,86 +1,80 @@
 package automation_exercise.products_tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
+import automation.exercise.models.ProductCard;
+import automation.exercise.models.ProductInCart;
+import automation.exercise.pages.AllProductsPage;
+import automation.exercise.pages.CartPage;
+import automation.exercise.pages.MainPage;
+import automation_exercise.BaseTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
+import java.util.List;
 
-public class AddToCartTests {
+import static org.assertj.core.api.Assertions.assertThat;
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+
+public class AddToCartTests extends BaseTest {
+
+    private AllProductsPage allProductsPage;
 
     @BeforeMethod
     public void setUp() {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        driver.quit();
+        allProductsPage = new MainPage()
+                .openMainPage()
+                .clickConsentButton()
+                .assertMainPageSuccessfullyLoaded()
+                .getMainMenu()
+                .clickProductsButton()
+                .assertAllProductsPageSuccessfullyLoaded();
+        allProductsPage.removeGoogleAdvertising();
     }
 
     @Test
     public void addProductsToCart() {
-        driver.get("https://automationexercise.com/");
-        wait.until(ExpectedConditions.urlToBe("https://automationexercise.com/"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[contains(@src,'logo.png')]")));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label='Погоджуюся' or @aria-label='Consent']"))).click();
+        List<ProductCard> allProducts = allProductsPage.getAllProducts();
+        allProducts
+                .get(0)
+                .cliclAddToCardButton()
+                .assertProductAddedToCardModalIsVisible()
+                .clickContinueShoppingButton()
+                .assertProductAddedToCardModalIsNotVisible();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/products']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='All Products']")));
+        allProducts
+                .get(0)
+                .cliclAddToCardButton()
+                .assertProductAddedToCardModalIsVisible()
+                .clickContinueShoppingButton()
+                .assertProductAddedToCardModalIsNotVisible();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ins[@data-anchor-status='displayed' and @data-adsbygoogle-status='done']")));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("document.querySelector('ins.adsbygoogle[data-anchor-status=\"displayed\"]').remove()");
+        CartPage cartPage = allProducts
+                .get(1)
+                .cliclAddToCardButton()
+                .assertProductAddedToCardModalIsVisible()
+                .clickViewCartButton();
 
-        WebElement firstProduct = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='product-image-wrapper'])[1]")));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(firstProduct).pause(1000).build().perform();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[@class='product-overlay']//a[contains(@class,'add-to-cart')])[1]"))).click();
+        List<ProductInCart> allProductsInCart = cartPage.getAllProductsInCart();
+        ProductInCart expectedFirstProductInCart = ProductInCart.builder()
+                .nameAsText("Blue Top")
+                .category("Women > Tops")
+                .price("Rs. 500")
+                .quantity("2")
+                .totalPrice("Rs. 1000")
+                .build();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-dismiss='modal']"))).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//button[@data-dismiss='modal']")));
+        ProductInCart actualFirstProductInCart = cartPage.getProductByName(allProductsInCart, "Blue Top");
+        assertThat(actualFirstProductInCart).usingRecursiveComparison().ignoringFields("image", "name", "deleteButton").isEqualTo(expectedFirstProductInCart);
 
-        actions.moveToElement(firstProduct).pause(1000).build().perform();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[@class='product-overlay']//a[contains(@class,'add-to-cart')])[1]"))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-dismiss='modal']"))).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//button[@data-dismiss='modal']")));
+        ProductInCart expectedSecondProductInCart = ProductInCart.builder()
+                .nameAsText("Men Tshirt")
+                .category("Men > Tshirts")
+                .price("Rs. 400")
+                .quantity("1")
+                .totalPrice("Rs. 400")
+                .build();
 
-
-        WebElement secondProduct = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='product-image-wrapper'])[2]")));
-        actions.moveToElement(secondProduct).pause(1000).build().perform();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[@class='product-overlay']//a[contains(@class,'add-to-cart')])[2]"))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='modal-content']//a[@href='/view_cart']"))).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'check_out')]")));
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_product']//img)[1]")));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[1]"), "Blue Top"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[1]"), "Women > Tops"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[1]"), "Rs. 500"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[1]"), "2"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_total']//p)[1]"), "Rs. 1000"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_delete']//a[@class='cart_quantity_delete'])[1]")));
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_product']//img)[2]")));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[2]"), "Men Tshirt"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[2]"), "Men > Tshirts"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[2]"), "Rs. 400"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[2]"), "1"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_total']//p)[2]"), "Rs. 400"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_delete']//a[@class='cart_quantity_delete'])[1]")));
+        ProductInCart actualSecondProductInCart = cartPage.getProductByName(allProductsInCart, "Men Tshirt");
+        assertThat(actualSecondProductInCart).usingRecursiveComparison().ignoringFields("image", "name", "deleteButton").isEqualTo(expectedSecondProductInCart);
     }
 }

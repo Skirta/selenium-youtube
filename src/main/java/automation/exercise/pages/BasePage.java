@@ -1,7 +1,6 @@
 package automation.exercise.pages;
 
 import automation.exercise.helpers.Waiter;
-import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
