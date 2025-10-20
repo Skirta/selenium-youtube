@@ -1,6 +1,7 @@
 package automation.exercise.helpers;
 
 import automation.exercise.models.Gender;
+import automation.exercise.models.ProductCard;
 import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
@@ -79,5 +80,9 @@ public class DataRandomizer {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH);
         String formattedData = localDate.format(formatter);
         return formattedData.split(" ");
+    }
+
+    public static int getRandomProduct(List<ProductCard> products){
+        return faker.number().numberBetween(0, products.size());
     }
 }
