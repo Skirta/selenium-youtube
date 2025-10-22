@@ -1,5 +1,6 @@
 package automation.exercise.pages;
 
+import automation.exercise.components.CheckoutModal;
 import automation.exercise.helpers.Waiter;
 import automation.exercise.models.ProductInCart;
 import org.openqa.selenium.By;
@@ -23,6 +24,7 @@ public class CartPage extends BasePage {
     private final By productQuantityLocator = By.xpath(".//td[@class='cart_quantity']//button");
     private final By productTotalPriceLocator = By.xpath(".//p[@class='cart_total_price']");
     private final By productDeleteButtonLocator = By.xpath(".//a[@class='cart_quantity_delete']");
+    private final By proceedToCheckoutButtonLocator = By.xpath("//a[contains(@class,'check_out')]");
 
     public List<ProductInCart> getAllProductsInCart() {
         List<ProductInCart> prod = new ArrayList<>();
@@ -58,6 +60,12 @@ public class CartPage extends BasePage {
                 .stream()
                 .filter(productInCart -> productInCart.getNameAsText().equals(productName)).findFirst().orElseThrow();
     }
+
+    public CheckoutModal clickProceedToCheckOutButton(){
+        waiter.waitUntilElementClicable(proceedToCheckoutButtonLocator).click();
+        return new CheckoutModal();
+    }
+
 
 //    public CartPage assertProductInCartDetails(CartPage actualProductCard, CartPage expectProductCard){
 //        assertNotNull(actualProductCard., String.format("Missing product image for product with name [%s]" , expectProductCard.getName()));

@@ -1,8 +1,13 @@
 package automation_exercise.place_order_tests;
 
+import automation.exercise.helpers.CreateAccountHelper;
 import automation.exercise.helpers.DataRandomizer;
+import automation.exercise.helpers.UserFactory;
 import automation.exercise.models.ProductCard;
+import automation.exercise.models.UserRegistrationDetails;
+import automation.exercise.pages.AccountCreatedPage;
 import automation.exercise.pages.AllProductsPage;
+import automation.exercise.pages.CreateAccountPage;
 import automation.exercise.pages.MainPage;
 import automation_exercise.BaseTest;
 import org.testng.annotations.BeforeMethod;
@@ -28,77 +33,42 @@ public class PlaceOrderTests extends BaseTest {
 
     @Test
     public void placeOrderTest(){
+        UserRegistrationDetails user = UserFactory.getUserForRegistration();
+
         List<ProductCard> allProducts = allProductsPage.getAllProducts();
-        allProducts
+        CreateAccountPage createAccountPage = allProducts
                 .get(DataRandomizer.getRandomProduct(allProducts))
-                .cliclAddToCardButton();
+                .cliclAddToCardButton()
+                .assertProductAddedToCardModalIsVisible()
+                .clickViewCartButton()
+                .clickProceedToCheckOutButton()
+                .assertCheckoutModalIsVisible()
+                .clickRegisterLoginButton()
+                .assertLoginPageSuccessfullyLoaded()
+                .setName(user.getFirstNameForRegistration() + " " + user.getLastNameForRegistration())
+                .setEmail(user.getEmailForRegistrstion())
+                .clickSignupButton();
+
+
+        AccountCreatedPage accountCreatedPage = CreateAccountHelper.createUserAccount(createAccountPage, user);
+        accountCreatedPage
+                .assertAccountCreatedPageSuccessfullyLoaded("ACCOUNT CREATED")
+                .clickContinueButton()
+                .getMainMenu()
+                .assertUserNameIsVisible("Logged in as " + user.getFirstNameForRegistration());
+
+
+
+
+
+
     }
 }
 
 
 
 
-//
-//        WebElement firstProduct = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='product-image-wrapper'])[1]")));
-//        WebElement viewFirstProductBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//i[contains(@class,'fa-plus-square')])[1]")));
-//        Actions actions = new Actions(driver);
-//        actions.scrollToElement(viewFirstProductBtn).moveToElement(firstProduct).pause(1000).build().perform();
-//        WebElement addToCartBtnOnFirstProduct = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//div[@class='product-overlay']//a[contains(@class,'add-to-cart')])[1]")));
-//        addToCartBtnOnFirstProduct.click();
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='modal-content']//a[@href='/view_cart']"))).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'check_out')]"))).click();
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='modal-content']//a[@href='/login']"))).click();
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='New User Signup!']")));
-//
-//        UUID uuid = UUID.randomUUID();
-//        String emailPart = uuid.toString().substring(0, 8);
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-qa='signup-name']"))).sendKeys("Joe");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@data-qa='signup-email']"))).sendKeys(emailPart + "joespencer@test.com");
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-qa='signup-button']"))).click();
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//b[text()='Enter Account Information']")));
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uniform-id_gender1"))).click();
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("test123");
-//
-//        WebElement daysSelectorLocator = driver.findElement(By.id("days"));
-//        Select daysSelect = new Select(daysSelectorLocator);
-//        daysSelect.selectByVisibleText("28");
-//
-//        WebElement monthSelectorLocator = driver.findElement(By.id("months"));
-//        Select monthSelect = new Select(monthSelectorLocator);
-//        monthSelect.selectByVisibleText("November");
-//
-//        WebElement yearsSelectorLocator = driver.findElement(By.id("years"));
-//        Select yearsSelect = new Select(yearsSelectorLocator);
-//        yearsSelect.selectByVisibleText("1990");
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.id("newsletter"))).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(By.id("optin"))).click();
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("first_name"))).sendKeys("Joe");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("last_name"))).sendKeys("Spenser");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("company"))).sendKeys("IOT Design");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("address1"))).sendKeys("Rice avenue, 2");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("address2"))).sendKeys("app 43");
-//        WebElement countrySelectorLocator = driver.findElement(By.id("country"));
-//        Select countrySelect = new Select(countrySelectorLocator);
-//        countrySelect.selectByVisibleText("Canada");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("state"))).sendKeys("UYS");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("city"))).sendKeys("Vancouver");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("zipcode"))).sendKeys("38822");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("mobile_number"))).sendKeys("+19237923723");
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-qa='create-account']"))).click();
-//
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//h2[@data-qa='account-created']/b"), "ACCOUNT CREATED!"));
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-qa='continue-button']"))).click();
-//
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//i[contains(@class,'fa-user')]/parent::a"), "Logged in as Joe"));
+
 //
 //        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[contains(@class,'navbar-nav')]//a[@href='/view_cart']"))).click();
 //        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'check_out')]"))).click();
