@@ -3,8 +3,10 @@ package automation.exercise.components;
 import automation.exercise.helpers.Waiter;
 import automation.exercise.pages.BasePage;
 import automation.exercise.pages.LoginPage;
+import lombok.Getter;
 import org.openqa.selenium.By;
 
+@Getter
 public class CheckoutModal {
     private final Waiter waiter = new Waiter(BasePage.getDriver());
 

@@ -1,8 +1,11 @@
 package automation.exercise.pages;
 
+import automation.exercise.helpers.Waiter;
 import org.openqa.selenium.By;
 
-public class CheckoutPage extends BasePage{
+public class CheckoutPage extends BasePage {
+    private final Waiter waiter = new Waiter(getDriver());
+
     // --- Заголовок ---
     private final By addressDetailsTitle = By.xpath("//h2[text()='Address Details']");
 
@@ -33,4 +36,9 @@ public class CheckoutPage extends BasePage{
     private final By orderMessageTextareaLocator = By.xpath("//textarea[@name='message']");
     private final By proceedToPaymentButtonLocator = By.xpath("//a[@href='/payment']");
 
+
+    public CheckoutPage assertAdressDetailsIsVisible() {
+        waiter.waitUntilVisibilityOfElementLocated(addressDetailsTitle);
+        return this;
+    }
 }

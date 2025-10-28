@@ -4,8 +4,10 @@ import automation.exercise.components.CheckoutModal;
 import automation.exercise.helpers.Waiter;
 import automation.exercise.models.ProductInCart;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,10 +63,17 @@ public class CartPage extends BasePage {
                 .filter(productInCart -> productInCart.getNameAsText().equals(productName)).findFirst().orElseThrow();
     }
 
-    public CheckoutModal clickProceedToCheckOutButton(){
+    public CheckoutModal clickProceedToCheckOutButtonExpectedModal() {
         waiter.waitUntilElementClicable(proceedToCheckoutButtonLocator).click();
         return new CheckoutModal();
     }
+
+    public CheckoutPage clickProceedToCheckOutButtonExpectedCheckoutPage() {
+        waiter.waitUntilElementClicable(proceedToCheckoutButtonLocator).click();
+        return new CheckoutPage();
+    }
+}
+
 
 
 //    public CartPage assertProductInCartDetails(CartPage actualProductCard, CartPage expectProductCard){
@@ -75,4 +84,3 @@ public class CartPage extends BasePage {
 //        assertNotNull(actualProductCard.getViewProductButton(), String.format("Missing product view button for product with name [%s]", expectProductCard.getName()));
 //        return this;
 //    }
-}

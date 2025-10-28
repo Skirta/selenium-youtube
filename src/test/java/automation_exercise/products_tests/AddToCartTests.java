@@ -36,21 +36,21 @@ public class AddToCartTests extends BaseTest {
         List<ProductCard> allProducts = allProductsPage.getAllProducts();
         allProducts
                 .get(0)
-                .cliclAddToCardButton()
+                .clickAddToCardButton()
                 .assertProductAddedToCardModalIsVisible()
                 .clickContinueShoppingButton()
                 .assertProductAddedToCardModalIsNotVisible();
 
         allProducts
                 .get(0)
-                .cliclAddToCardButton()
+                .clickAddToCardButton()
                 .assertProductAddedToCardModalIsVisible()
                 .clickContinueShoppingButton()
                 .assertProductAddedToCardModalIsNotVisible();
 
         CartPage cartPage = allProducts
                 .get(1)
-                .cliclAddToCardButton()
+                .clickAddToCardButton()
                 .assertProductAddedToCardModalIsVisible()
                 .clickViewCartButton();
 

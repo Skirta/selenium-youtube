@@ -34,14 +34,13 @@ public class PlaceOrderTests extends BaseTest {
     @Test
     public void placeOrderTest(){
         UserRegistrationDetails user = UserFactory.getUserForRegistration();
-
         List<ProductCard> allProducts = allProductsPage.getAllProducts();
         CreateAccountPage createAccountPage = allProducts
                 .get(DataRandomizer.getRandomProduct(allProducts))
-                .cliclAddToCardButton()
+                .clickAddToCardButton()
                 .assertProductAddedToCardModalIsVisible()
                 .clickViewCartButton()
-                .clickProceedToCheckOutButton()
+                .clickProceedToCheckOutButtonExpectedModal()
                 .assertCheckoutModalIsVisible()
                 .clickRegisterLoginButton()
                 .assertLoginPageSuccessfullyLoaded()
@@ -55,7 +54,18 @@ public class PlaceOrderTests extends BaseTest {
                 .assertAccountCreatedPageSuccessfullyLoaded("ACCOUNT CREATED")
                 .clickContinueButton()
                 .getMainMenu()
-                .assertUserNameIsVisible("Logged in as " + user.getFirstNameForRegistration());
+                .assertUserNameIsVisible("Logged in as " + user.getFirstNameForRegistration())
+                .getMainMenu()
+                .clickCartButton()
+                .clickProceedToCheckOutButtonExpectedCheckoutPage()
+                .assertAdressDetailsIsVisible();
+
+        List<UserRegistrationDetails> adressDetails = user
+                .getGender()
+
+
+
+
 
 
 
@@ -69,11 +79,7 @@ public class PlaceOrderTests extends BaseTest {
 
 
 
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[contains(@class,'navbar-nav')]//a[@href='/view_cart']"))).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'check_out')]"))).click();
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Address Details']")));
+
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_firstname')]"), "Mr. Joe Spenser"));
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][2]"), "Rice avenue, 2"));
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][3]"), "app 43"));

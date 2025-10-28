@@ -14,6 +14,7 @@ public class MainMenu {
     protected final By deleteAccountButtonLocator = By.xpath("//a[@href='/delete_account']");
     protected final By logoutButtonLocator = By.xpath("//a[@href='/logout']");
     protected final By productsButtonLocator = By.xpath("//a[@href='/products']");
+    protected final By cartButtonLocator = By.xpath("//a[@href='/view_cart']");
 
     public AccountDeletedPage clickDeleteAccountButton() {
         waiter.waitUntilElementClicable(deleteAccountButtonLocator).click();
@@ -35,8 +36,15 @@ public class MainMenu {
         return new AllProductsPage();
     }
 
+    public CartPage clickCartButton() {
+        waiter.waitUntilElementClicable(cartButtonLocator).click();
+        return new CartPage();
+    }
+
     public MainPage assertUserNameIsVisible(String expectedName) {
         waiter.waitUntilTextToBeInElement(loggedInAsNameLocator, expectedName);
         return new MainPage();
     }
+
+
 }

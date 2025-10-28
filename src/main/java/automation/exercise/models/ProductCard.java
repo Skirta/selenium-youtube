@@ -24,12 +24,12 @@ public class ProductCard {
     private WebElement viewProductButton;
     private final Waiter waiter = new Waiter(BasePage.getDriver());
 
-    public ProductDetailsPage cliclViewProductButton(){
+    public ProductDetailsPage clickViewProductButton(){
         this.viewProductButton.click();
         return new ProductDetailsPage();
     }
 
-    public ProductAddedToCardModal cliclAddToCardButton() {
+    public ProductAddedToCardModal clickAddToCardButton() {
         Actions actions = new Actions(BasePage.getDriver());
         actions.moveToElement(this.addToCartButton).pause(500).perform();
         waiter.waitUntilElementClicable(this.addToCartOverlayButton).click();

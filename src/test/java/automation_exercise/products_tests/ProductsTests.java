@@ -43,7 +43,7 @@ public class ProductsTests extends BaseTest {
                 .build();
         allProductsPage.assertProductDetails(actualProductCard, expectedProductCard);
 
-        ProductDetailsPage productDetailsPage = actualProductCard.cliclViewProductButton();
+        ProductDetailsPage productDetailsPage = actualProductCard.clickViewProductButton();
 
         ProductDetails actualProductDetails = productDetailsPage.getProductDetails();
         ProductDetails expectedProductDetails = ProductDetails.builder()
