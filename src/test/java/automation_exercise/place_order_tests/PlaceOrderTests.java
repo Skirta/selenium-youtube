@@ -4,16 +4,17 @@ import automation.exercise.helpers.CreateAccountHelper;
 import automation.exercise.helpers.DataRandomizer;
 import automation.exercise.helpers.UserFactory;
 import automation.exercise.models.ProductCard;
+import automation.exercise.models.UserDeliveryAddressDetails;
 import automation.exercise.models.UserRegistrationDetails;
-import automation.exercise.pages.AccountCreatedPage;
-import automation.exercise.pages.AllProductsPage;
-import automation.exercise.pages.CreateAccountPage;
-import automation.exercise.pages.MainPage;
+import automation.exercise.pages.*;
 import automation_exercise.BaseTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
+
+import static automation.exercise.helpers.GenderFormatter.format;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlaceOrderTests extends BaseTest {
 
@@ -57,19 +58,20 @@ public class PlaceOrderTests extends BaseTest {
                 .assertUserNameIsVisible("Logged in as " + user.getFirstNameForRegistration())
                 .getMainMenu()
                 .clickCartButton()
-                .clickProceedToCheckOutButtonExpectedCheckoutPage()
-                .assertAdressDetailsIsVisible();
+                .clickProceedToCheckOutButtonExpectedCheckoutPage();
+        CheckoutPage checkoutPage = new CheckoutPage();
 
-        List<UserRegistrationDetails> adressDetails = user
-                .getGender()
-
-
-
-
-
-
-
-
+        UserDeliveryAddressDetails actualDeliveryAddressDetails = checkoutPage.getDeliveryAddressDetails();
+        UserDeliveryAddressDetails expectedDeliveryAddressDetails = UserDeliveryAddressDetails.builder()
+                .genderNameLastname(format(user.getGender()) + " " + user.getFirstNameForRegistration() + " " + user.getLastNameForRegistration())
+                .addressFirst(user.getCompanyNameForRegistration())
+                .addressSecond(user.getAddressForRegistration())
+                .additionalAddress(user.getSecondAddressForRegistration())
+                .city(user.getCityForRegistration() + " " + user.getStateForRegistration() + " " + user.getZipcodeForRegistration())
+                .country(user.getCountryForRegistration())
+                .phone(user.getMobileNumberForRegistration())
+                .build();
+        assertThat(actualDeliveryAddressDetails).isEqualTo(expectedDeliveryAddressDetails);
 
 
     }

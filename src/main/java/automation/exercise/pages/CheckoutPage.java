@@ -1,6 +1,8 @@
 package automation.exercise.pages;
 
 import automation.exercise.helpers.Waiter;
+import automation.exercise.models.UserDeliveryAddressDetails;
+import automation.exercise.models.UserRegistrationDetails;
 import org.openqa.selenium.By;
 
 public class CheckoutPage extends BasePage {
@@ -11,6 +13,7 @@ public class CheckoutPage extends BasePage {
 
     // --- Адреса доставки ---
     private final By deliveryAddressNameLocator = By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_firstname')]");
+    private final By deliveryAddressLine0Locator = By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][1]");
     private final By deliveryAddressLine1Locator = By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][2]");
     private final By deliveryAddressLine2Locator = By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][3]");
     private final By deliveryAddressCityLocator = By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_city')]");
@@ -40,5 +43,18 @@ public class CheckoutPage extends BasePage {
     public CheckoutPage assertAdressDetailsIsVisible() {
         waiter.waitUntilVisibilityOfElementLocated(addressDetailsTitle);
         return this;
+    }
+
+    public UserDeliveryAddressDetails getDeliveryAddressDetails () {
+        UserDeliveryAddressDetails userDeliveryAddressDetails = UserDeliveryAddressDetails.builder()
+                .genderNameLastname(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressNameLocator).getText())
+                .addressFirst(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressLine0Locator).getText())
+                .addressSecond(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressLine1Locator).getText())
+                .additionalAddress(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressLine2Locator).getText())
+                .city(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressCityLocator).getText())
+                .country(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressCountryLocator).getText())
+                .phone(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressPhoneLocator).getText())
+                .build();
+        return userDeliveryAddressDetails;
     }
 }
