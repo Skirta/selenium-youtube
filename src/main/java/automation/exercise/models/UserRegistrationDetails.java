@@ -1,15 +1,13 @@
 package automation.exercise.models;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import static automation.exercise.helpers.GenderFormatter.format;
 
 @Getter
 @Setter
 @Builder
 @EqualsAndHashCode
-
 public class UserRegistrationDetails {
     private Gender gender;
     private String emailForRegistrstion;
@@ -27,4 +25,28 @@ public class UserRegistrationDetails {
     private String cityForRegistration;
     private String zipcodeForRegistration;
     private String mobileNumberForRegistration;
+
+    public UserDeliveryAndInvoiceAddressDetails getDeliveryAddressDetails() {
+        return UserDeliveryAndInvoiceAddressDetails.builder()
+                .genderNameLastname(format(gender) + " " + firstNameForRegistration + " " + lastNameForRegistration)
+                .addressFirst(companyNameForRegistration)
+                .addressSecond(addressForRegistration)
+                .additionalAddress(secondAddressForRegistration)
+                .city(cityForRegistration + " " + stateForRegistration + " " + zipcodeForRegistration)
+                .country(countryForRegistration)
+                .phone(mobileNumberForRegistration)
+                .build();
+    }
+
+    public UserDeliveryAndInvoiceAddressDetails getInvoiceAddressDetails() {
+        return UserDeliveryAndInvoiceAddressDetails.builder()
+                .genderNameLastname(format(gender) + " " + firstNameForRegistration + " " + lastNameForRegistration)
+                .addressFirst(companyNameForRegistration)
+                .addressSecond(addressForRegistration)
+                .additionalAddress(secondAddressForRegistration)
+                .city(cityForRegistration + " " + stateForRegistration + " " + zipcodeForRegistration)
+                .country(countryForRegistration)
+                .phone(mobileNumberForRegistration)
+                .build();
+    }
 }

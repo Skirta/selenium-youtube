@@ -4,7 +4,6 @@ import automation.exercise.helpers.CreateAccountHelper;
 import automation.exercise.helpers.DataRandomizer;
 import automation.exercise.helpers.UserFactory;
 import automation.exercise.models.ProductCard;
-import automation.exercise.models.UserDeliveryAddressDetails;
 import automation.exercise.models.UserRegistrationDetails;
 import automation.exercise.pages.*;
 import automation_exercise.BaseTest;
@@ -13,7 +12,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static automation.exercise.helpers.GenderFormatter.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlaceOrderTests extends BaseTest {
@@ -49,7 +47,6 @@ public class PlaceOrderTests extends BaseTest {
                 .setEmail(user.getEmailForRegistrstion())
                 .clickSignupButton();
 
-
         AccountCreatedPage accountCreatedPage = CreateAccountHelper.createUserAccount(createAccountPage, user);
         accountCreatedPage
                 .assertAccountCreatedPageSuccessfullyLoaded("ACCOUNT CREATED")
@@ -61,18 +58,8 @@ public class PlaceOrderTests extends BaseTest {
                 .clickProceedToCheckOutButtonExpectedCheckoutPage();
         CheckoutPage checkoutPage = new CheckoutPage();
 
-        UserDeliveryAddressDetails actualDeliveryAddressDetails = checkoutPage.getDeliveryAddressDetails();
-        UserDeliveryAddressDetails expectedDeliveryAddressDetails = UserDeliveryAddressDetails.builder()
-                .genderNameLastname(format(user.getGender()) + " " + user.getFirstNameForRegistration() + " " + user.getLastNameForRegistration())
-                .addressFirst(user.getCompanyNameForRegistration())
-                .addressSecond(user.getAddressForRegistration())
-                .additionalAddress(user.getSecondAddressForRegistration())
-                .city(user.getCityForRegistration() + " " + user.getStateForRegistration() + " " + user.getZipcodeForRegistration())
-                .country(user.getCountryForRegistration())
-                .phone(user.getMobileNumberForRegistration())
-                .build();
-        assertThat(actualDeliveryAddressDetails).isEqualTo(expectedDeliveryAddressDetails);
-
+        assertThat(checkoutPage.getDeliveryAddressDetails()).isEqualTo(user.getDeliveryAddressDetails());
+        assertThat(checkoutPage.getInvoiceAddressDetails()).isEqualTo(user.getInvoiceAddressDetails());
 
     }
 }
@@ -82,20 +69,8 @@ public class PlaceOrderTests extends BaseTest {
 
 
 
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_firstname')]"), "Mr. Joe Spenser"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][2]"), "Rice avenue, 2"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_address1')][3]"), "app 43"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_city')]"), "Vancouver UYS 38822"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_country_name')]"), "Canada"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_delivery']/li[contains(@class,'address_phone')]"), "+19237923723"));
-//
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_invoice']/li[contains(@class,'address_firstname')]"), "Mr. Joe Spenser"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_invoice']/li[contains(@class,'address_address1')][2]"), "Rice avenue, 2"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_invoice']/li[contains(@class,'address_address1')][3]"), "app 43"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_invoice']/li[contains(@class,'address_city')]"), "Vancouver UYS 38822"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_invoice']/li[contains(@class,'address_country_name')]"), "Canada"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//ul[@id='address_invoice']/li[contains(@class,'address_phone')]"), "+19237923723"));
-//
+
+
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_product']//img)[1]")));
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[1]"), "Blue Top"));
 //        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[1]"), "Women > Tops"));

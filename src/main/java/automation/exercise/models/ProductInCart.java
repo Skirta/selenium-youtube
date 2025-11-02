@@ -5,9 +5,6 @@ import automation.exercise.pages.BasePage;
 import lombok.*;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-import java.util.logging.Level;
-
 @AllArgsConstructor
 @Getter
 @Setter

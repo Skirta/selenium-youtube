@@ -1,15 +1,12 @@
 package automation.exercise.models;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @EqualsAndHashCode
-public class UserDeliveryAddressDetails {
+public class UserDeliveryAndInvoiceAddressDetails {
     private String genderNameLastname;
     private String addressFirst;
     private String city;
