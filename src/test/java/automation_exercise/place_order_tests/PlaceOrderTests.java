@@ -4,6 +4,7 @@ import automation.exercise.helpers.CreateAccountHelper;
 import automation.exercise.helpers.DataRandomizer;
 import automation.exercise.helpers.UserFactory;
 import automation.exercise.models.ProductCard;
+import automation.exercise.models.ProductInCart;
 import automation.exercise.models.UserRegistrationDetails;
 import automation.exercise.pages.*;
 import automation_exercise.BaseTest;
@@ -34,8 +35,9 @@ public class PlaceOrderTests extends BaseTest {
     public void placeOrderTest(){
         UserRegistrationDetails user = UserFactory.getUserForRegistration();
         List<ProductCard> allProducts = allProductsPage.getAllProducts();
-        CreateAccountPage createAccountPage = allProducts
-                .get(DataRandomizer.getRandomProduct(allProducts))
+        int randomIndex = DataRandomizer.getRandomProduct(allProducts);
+        ProductCard selectedProduct = allProducts.get(randomIndex);
+        CreateAccountPage createAccountPage = selectedProduct
                 .clickAddToCardButton()
                 .assertProductAddedToCardModalIsVisible()
                 .clickViewCartButton()
@@ -61,7 +63,12 @@ public class PlaceOrderTests extends BaseTest {
         assertThat(checkoutPage.getDeliveryAddressDetails()).isEqualTo(user.getDeliveryAddressDetails());
         assertThat(checkoutPage.getInvoiceAddressDetails()).isEqualTo(user.getInvoiceAddressDetails());
 
-    }
+        List<ProductInCart> allProductsInCheckout = checkoutPage.getAllProductsInCheckout();
+        ProductInCart firstProductInCart = allProductsInCheckout.get(0);
+        assertThat(firstProductInCart.getNameAsText()).isEqualTo(selectedProduct.getName());
+        assertThat(firstProductInCart.getPrice()).isEqualTo(selectedProduct.getPrice());
+        assertThat(firstProductInCart.getQuantity()).isEqualTo("1");
+     }
 }
 
 
@@ -71,13 +78,6 @@ public class PlaceOrderTests extends BaseTest {
 
 
 
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_product']//img)[1]")));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[1]"), "Blue Top"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[1]"), "Women > Tops"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[1]"), "Rs. 500"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[1]"), "1"));
-//        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("(//p[@class='cart_total_price'])[last()]"), "Rs. 500"));
-//
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='message']"))).sendKeys("Send ASAP please");
 //        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/payment']"))).click();
 //

@@ -36,10 +36,10 @@ public class CheckoutPage extends BasePage {
     // --- Товар у кошику (під час оформлення замовлення) ---
     private final By checkoutCartContainerLocator = By.id("cart_info");
     private final By checkoutCartProductImageLocator = By.xpath(".//img");
-    private final By checkoutCartFirstProductNameLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[1]");
-    private final By checkoutCartFirstProductCategoryLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[1]");
-    private final By checkoutCartFirstProductPriceLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[1]");
-    private final By checkoutCartFirstProductQuantityLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[1]");
+    private final By checkoutCartProductNameLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//a)[1]");
+    private final By checkoutCartProductCategoryLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_description']//p)[1]");
+    private final By checkoutCartProductPriceLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_price']//p)[1]");
+    private final By checkoutCartProductQuantityLocator = By.xpath("(//div[@id='cart_info']//tr[@id]/td[@class='cart_quantity']//button)[1]");
     private final By checkoutCartTotalPriceLocator = By.xpath("(//p[@class='cart_total_price'])[last()]");
 
     private final By orderMessageTextareaLocator = By.xpath("//textarea[@name='message']");
@@ -80,13 +80,12 @@ public class CheckoutPage extends BasePage {
         List<WebElement> productContainers = getDriver().findElements(checkoutCartContainerLocator);
         for (WebElement container : productContainers) {
             WebElement productImage = waiter.findOrNull(container, checkoutCartProductImageLocator);
-            WebElement productName = waiter.findOrNull(container, productNameLocator);
+            WebElement productName = waiter.findOrNull(container, checkoutCartProductNameLocator);
             String productNameAsText = productName.getText();
-            String productPrice = waiter.getTextOrNull(container, productPriceLocator);
-            String productCategory = waiter.getTextOrNull(container, productCategoryLocator);
-            String productQuantity = waiter.getTextOrNull(container, productQuantityLocator);
-            String productTotalPrice = waiter.getTextOrNull(container, productTotalPriceLocator);
-            WebElement deleteButton = waiter.findOrNull(container, productDeleteButtonLocator);
+            String productPrice = waiter.getTextOrNull(container, checkoutCartProductPriceLocator);
+            String productCategory = waiter.getTextOrNull(container, checkoutCartProductCategoryLocator);
+            String productQuantity = waiter.getTextOrNull(container, checkoutCartProductQuantityLocator);
+            String productTotalPrice = waiter.getTextOrNull(container, checkoutCartTotalPriceLocator);
 
             ProductInCart productInCard = ProductInCart.builder()
                     .image(productImage)
@@ -96,7 +95,6 @@ public class CheckoutPage extends BasePage {
                     .category(productCategory)
                     .quantity(productQuantity)
                     .totalPrice(productTotalPrice)
-                    .deleteButton(deleteButton)
                     .build();
 
             prod.add(productInCard);

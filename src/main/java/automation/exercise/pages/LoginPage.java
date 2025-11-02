@@ -28,7 +28,7 @@ public class LoginPage extends BasePage {
     }
     public CreateAccountPage clickSignupButton(){
         waiter.waitUntilElementClicable(signupButtonLocator).click();
-        removeGoogleAdvertising();
+//        removeGoogleAdvertising();
         return new CreateAccountPage();
     }
 

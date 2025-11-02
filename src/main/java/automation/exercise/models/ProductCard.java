@@ -4,10 +4,7 @@ import automation.exercise.components.ProductAddedToCardModal;
 import automation.exercise.helpers.Waiter;
 import automation.exercise.pages.BasePage;
 import automation.exercise.pages.ProductDetailsPage;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -15,10 +12,14 @@ import org.openqa.selenium.interactions.Actions;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 public class ProductCard {
     private WebElement image;
     private String price;
     private String name;
+    private String category;
+    private String quantity;
+    private String totalPrice;
     private WebElement addToCartButton;
     private WebElement addToCartOverlayButton;
     private WebElement viewProductButton;
