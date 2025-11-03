@@ -43,7 +43,7 @@ public class CheckoutPage extends BasePage {
     private final By checkoutCartTotalPriceLocator = By.xpath("(//p[@class='cart_total_price'])[last()]");
 
     private final By orderMessageTextareaLocator = By.xpath("//textarea[@name='message']");
-    private final By proceedToPaymentButtonLocator = By.xpath("//a[@href='/payment']");
+    private final By placeOrderLocator = By.xpath("//a[@href='/payment']");
 
 
     public CheckoutPage assertAdressDetailsIsVisible() {
@@ -51,7 +51,7 @@ public class CheckoutPage extends BasePage {
         return this;
     }
 
-    public UserDeliveryAndInvoiceAddressDetails getDeliveryAddressDetails () {
+    public UserDeliveryAndInvoiceAddressDetails getDeliveryAddressDetails() {
         return UserDeliveryAndInvoiceAddressDetails.builder()
                 .genderNameLastname(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressNameLocator).getText())
                 .addressFirst(waiter.waitUntilVisibilityOfElementLocated(deliveryAddressLine0Locator).getText())
@@ -63,7 +63,7 @@ public class CheckoutPage extends BasePage {
                 .build();
     }
 
-    public UserDeliveryAndInvoiceAddressDetails getInvoiceAddressDetails () {
+    public UserDeliveryAndInvoiceAddressDetails getInvoiceAddressDetails() {
         return UserDeliveryAndInvoiceAddressDetails.builder()
                 .genderNameLastname(waiter.waitUntilVisibilityOfElementLocated(invoiceAddressNameLocator).getText())
                 .addressFirst(waiter.waitUntilVisibilityOfElementLocated(invoiceAddressLine0Locator).getText())
@@ -101,4 +101,15 @@ public class CheckoutPage extends BasePage {
         }
         return prod;
     }
+
+    public CheckoutPage inputComment(String comment) {
+        waiter.waitUntilVisibilityOfElementLocated(orderMessageTextareaLocator).sendKeys(comment);
+        return this;
+    }
+
+    public PaymentPage clickPlaceOrderButton() {
+        waiter.waitUntilVisibilityOfElementLocated(placeOrderLocator).click();
+        return new PaymentPage();
+    }
+
 }

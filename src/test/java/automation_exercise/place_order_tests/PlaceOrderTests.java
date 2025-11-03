@@ -58,7 +58,7 @@ public class PlaceOrderTests extends BaseTest {
                 .getMainMenu()
                 .clickCartButton()
                 .clickProceedToCheckOutButtonExpectedCheckoutPage();
-        CheckoutPage checkoutPage = new CheckoutPage();
+        CheckoutPage checkoutPage = new CheckoutPage().assertAdressDetailsIsVisible();
 
         assertThat(checkoutPage.getDeliveryAddressDetails()).isEqualTo(user.getDeliveryAddressDetails());
         assertThat(checkoutPage.getInvoiceAddressDetails()).isEqualTo(user.getInvoiceAddressDetails());
@@ -68,28 +68,18 @@ public class PlaceOrderTests extends BaseTest {
         assertThat(firstProductInCart.getNameAsText()).isEqualTo(selectedProduct.getName());
         assertThat(firstProductInCart.getPrice()).isEqualTo(selectedProduct.getPrice());
         assertThat(firstProductInCart.getQuantity()).isEqualTo("1");
-     }
+
+        checkoutPage
+                .inputComment("send it ASAP, please")
+                .clickPlaceOrderButton()
+                .assertPaymentPageIsSuccessfullyLoaded()
+                .setNameOnCard(user.getFirstNameForRegistration() + " " + user.getLastNameForRegistration())
+                .setCardNumber(DataRandomizer.getRandomCardNumber())
+                .setCardCVC(DataRandomizer.getRandomCardCVC())
+                .setCardMonth(DataRandomizer.getRandomMonthForCard())
+                .setCardYear(DataRandomizer.getRandomYearForCard())
+                .clickPayAndConfirmOrderButton()
+                .assertOrderPlacedSuccessfully()
+                .clickDownloadInvoiceButton();
+    }
 }
-
-
-
-
-
-
-
-
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@name='message']"))).sendKeys("Send ASAP please");
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/payment']"))).click();
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Payment']")));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("name_on_card"))).sendKeys("Joe Spenser");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("card_number"))).sendKeys("4444444444444444");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("cvc"))).sendKeys("123");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("expiry_month"))).sendKeys("10");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("expiry_year"))).sendKeys("2029");
-//        wait.until(ExpectedConditions.elementToBeClickable(By.id("submit"))).click();
-//
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='Congratulations! Your order has been confirmed!']")));
-//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'check_out')]"))).click();
-//    }
-//}
